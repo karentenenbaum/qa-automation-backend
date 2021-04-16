@@ -1,17 +1,25 @@
 const express = require('express')
+const cors = require('cors');
+
 const app = express()
+app.use(cors());
+app.use(express.json());
 const port = 4000
 
-//register
+let user = null;
+
 app.post('/register', (req, res) => {
-    console.log('holaaaaa');
-    console.log(req);
-    res.json({result: 'success'});
+    user = req.body;
+    res.json({result: 'success'})
 })
 
-//login  
 app.put('/login', (req, res) => {
-    res.json({result: 'success'})
+    const body = req.body;
+    if(user && user.email === body.email && user.password === body.password) {
+        res.json({result: 'success'})
+    } else {
+        res.json({result: 'error'})
+    }
 })
 
 app.listen(port, () => {
